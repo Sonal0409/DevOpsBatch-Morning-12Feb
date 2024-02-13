@@ -1,1 +1,93 @@
+RECAP
+
+> Walkthrough of LMS
+Steps to activate Lab:
+ > Login to Edureka LMS -> go to my courses > Select DevOps Certification Training Course 
+ > Go to My Lab (it will be on the left side of the page. Scroll down the page if needed)
+ > Click on Go to DevOps Lab
+ > A new page will open with edureka cloud Lab
+ > Click on Start lab 
+ > It will take 24 hours to activate your lab. Pls wait till then.
+
+Disadvantages of Waterfall Model:
+=========================================
+Dev and Ops team work in Silos
+Time taken to market the product is more
+No intermediate deliveries
+It is a rigid model 
+Next phase is executed only after the previous phase has completed
+Its a risky model, required more effort and costly
+No new changes are accommodated once the project has been started
+No window to include feedbacks from client
+
+Disadvantages of Agile Model:
+========================================
+Dev and Ops team work in Silos
+Deployment is done manually on a given date and time upon getting approval form all stakeholders
+As Deployment is done manually if any command or file is missed by the team, the deployment will fail 
+and this will bring delay in project delivery.
+Infrastructure set up in Agile is done manually and when it has to be done on several servers it is time consuming.
+Scaling up of infrastructure is also time consuming.
+No automation tools used for Deployment or infrastructure set up
+
+Roles and responsibilities of DevOps team:
+============================================
+
+Roles:
+===========================
+Sr. Devops Engineer
+Cloud DevOps Engineer
+Lead Devops Engineer
+DevOps / SRE
+Devops Consultant
+Build and Release Engineer
+Principal DevOps/SRE Engineer
+Principal Platform Software Engineer
+Associate Director - Devops Engineer
+Associate Director - Cloud DevOps Engineer role
+Devops Engineer - Lead
+Junior DevOps Engineer
+
+Responsibilities:
+=======================
+In detail responsibilties:
+==========================
+
+Service Ownership –
+A devOps engineer can be part of the DevOps/SRE team, whose mission is the shared full stack ownership of a collection of services 
+and/or technology areas. 
+As a devops team member you will have to understand the end-to-end product, configuration, technical dependencies, 
+and overall behavioral characteristics of the production services, monitoring, diagnosability, incident management, etc.
+
+A devOps engineer works closely with development teams and will have the responsibility to ensure 
+that services are designed and delivered to be mission critical with focus on security, resiliency, scale, and performance.
+
+Service Design – you will partner with development teams in defining and
+ implementing improvements in service architecture, both current and future.
+  You will be an expert at articulating technical characteristics of your services and the dependencies between services 
+  and guide Development teams to engineer and add premier capabilities to the  Cloud service portfolio. 
+  Additionally, contribute to implementation of service functionality to solve customer requirements.
+
+Service Monitoring - Define Service Level Objectives (SLO) and implement/monitor Service Level Indicators (SLI) for production services. Aggregate data from multiple monitoring tools, normalize, and build tools and alerts for the overall system health.
+
+
+Operations Engineering – You will understand and be able to communicate the scale, capacity, security, performance attributes and requirements of the services you own. You are a Subject Matter Expert, able to understand and communicate every characteristic of your service stack, such as: degradation and behavior under load of the services and their dependencies end-to-end tuning needs, optimizing resource utilization, as load patterns fluctuate Instrumentation and metrics that clearly describe the service behaviors scaling requirements and patterns, resiliency and recoverability, ensuring that backup / restore and disaster recovery capabilities are implemented, tested and maintained
+
+
+Service Automation – You will have a clear understanding of automation and orchestration principles, 
+and will be eager to automate, wherever and whenever the possibility arises, while simultaneously eliminating technical debt. 
+Automation must be part of your DNA.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
