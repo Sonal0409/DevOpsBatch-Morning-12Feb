@@ -1,0 +1,84 @@
+1. Become root user:
+
+# sudo su -
+
+2. Install git if on AWS ec2 instance
+
+# yum install git -y
+
+Above command not required on edureka Lab.
+
+3. Create a Local repository using GIT
+==========================================
+
+#  mkdir myproject   ==> this command create a emply folder on the lab machine
+
+# cd myproject   ==> this command will change directory to myproject
+
+# touch index1.html index2.html  ==> this command will create empty files
+
+# ls   ==> show the files in your folder myproject
+
+# git init   ==> this command create a local repo
+
+A local repository will be created
+
+# ls -al  ==> this command will show hidden fodler .git
+
+.git folder will be available, which is your local repository.
+
+===========================================
+4. Add the configuration parameters in git, which will later update author and email details in the git commit history
+
+2 variables need to be set
+
+user.name 
+user.email
+
+
+# git config --global user.name sonal0409
+
+# git config --global user.email admin@gmail.com
+
+List the configurations:
+
+git config --list
+
+try it latter
+==========================
+git config --global --unset user.name
+
+git config --global --unset user.email
+
+
+
+5. Add the files to the stagging area and commit them to Local repo
+=========================================
+
+# git status
+
+# git add <filename> <filename2>
+
+or
+
+git add --all
+
+or
+
+git add .
+
+or
+
+git add *.java *.php
+
+# git status
+
+# git commit -m "adding file index1.html"
+
+Commit all the changes/files in the stagging area
+
+If we want to Choose a file to be commited
+
+git commit -m "adding file index1.html" <filename>
+
+================================================
