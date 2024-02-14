@@ -1,0 +1,180 @@
+6. Modify an exisitng tracked files and add those changes to local repo
+====================================================
+
+Take a file which is in local repo
+
+# git ls-files
+
+# vim index1.html
+
+Press i to add any data
+
+press ESC key and press :wq and pres senter key 
+& save the file
+
+# git status
+
+status of file is modified
+
+To add all the modification and commit them to local repo
+
+# git commit -a -m "added modifications"
+
+
+7. If some files are not required to be tracked by GIT --> ignore certain files for version control
+
+=================================================
+
+Git provides the concept of .gitignore, where in we create a file with the name .gitignore
+And we will add names of the files that we dont want to track
+This concept is applicable to files which are new and untracked
+
+# vim .gitignore
+
+In this file insert the name of files to be ingores
+
+press i
+
+*.xml
+*.php
+*.log
+
+:wq
+
+# git status
+
+This concept this applicable to new file(files that are not commited)
+It is only for untracked file.
+
+# sudo su -
+
+# cd myproject
+
+1. Check the log for commit history
+
+# git log
+
+in this HEAD it is an object in git which represents the latest/recent commit id
+
+# git log --oneline
+
+Check commit history of every commit in a single line
+
+# git show <commid id>
+Shows what happened in that commit.
+
+See commits of a particular file:
+
+ git log --graph --all -- index1.html
+
+
+2. Create a feature branch in git  and switch to the branch
+
+========================================
+
+# git branch
+
+Create a new branch
+
+# git branch feature1
+
+Switch to the new branch
+
+# git checkout feature1
+
+[OR]
+
+Create a new branch and switch to the branch also
+
+# git checkout -b feature2
+
+3. Merge the commits/files of new branch to master
+
+Before merging always switch to the destination branch
+
+# git checkout master
+
+# git merge feature1 master
+
+< git merge sourcebranch destinationbranch>
+
+
+Check which branches are merged to master
+
+git branch -a --merged master
+
+Check which branches are not merged to master
+
+git branch -a --no-merged master
+
+
+4. Delete a branch which is not merged with master branch
+
+# git branch -D <branchname>
+
+Delete a branch whose commits have been merged with the master branch
+
+# git branch -d feature1
+
+
+5. Reset the commit history
+
+# git reset --hard <commitid>
+
+here:
+
+commit id is where the HEAD will point to now.
+
+All the other commits above it will be deleted and the chnages will also be deleted from LR and working directory.
+
+It is a destructive command
+
+
+6. Rebase merging strategy in GIT (rewind the commit history)
+
+# git branch
+
+you should be on the master branch
+
+Now create a new branch
+
+# git branch feature1
+
+On the master branch create 2  new commits
+
+example of my log on master branch
+
+8bce083 (HEAD -> master) on master branch 2
+daa1204 on master branch1
+ea61e8e (feature1) added modifications
+0a733ed adding file index1.html
+
+
+Now switch to feature branch and create 2 new commits
+
+
+example of my log on master branch
+
+9981946 (HEAD -> feature1) on branch
+156dc12 done in feature branch
+ea61e8e added modifications
+0a733ed adding file index1.html
+
+
+I want to rebase - re organise the base of my feature branch
+
+Make sure you are on feature branch
+
+# git rebase master
+
+
+The commit history will be as such:
+
+41f5d79 (HEAD -> feature1) on branch
+9469e15 done in feature branch
+8bce083 (master) on master branch 2
+daa1204 on master branch1
+ea61e8e added modifications
+0a733ed adding file index1.html
+
+=================================================
