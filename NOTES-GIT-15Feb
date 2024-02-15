@@ -1,0 +1,82 @@
+GITHUB:
+
+==================================================
+
+Login to github.com
+
+============================
+
+
+Personal access tokens (classic) function like ordinary OAuth access tokens. They can be used instead of a github password for Git over HTTPS, or can be used to authenticate to the API over Basic Authentication.
+
+1. Create a personal access token:
+
+ > clcik on user menu which is on the extreme right
+ > click on settings in that
+ > scroll down, on left side you will see developer settings -- click on it
+ > on left side 3 rd option --> personla Access token
+ > select tokens(classic)
+ > click on generate new token --> click on generate new token classic
+ > in note --give token name as token19
+ > expiration --> leave as is
+ > select scopes --> clcik on repo checkbox
+ > scroll down and clcik on generate token
+ > the generated token need to be copied safely
+
+Make sure to copy your personal access token now. You won’t be able to see it again!
+
+token:
+
+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
+
+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
+
+
+
+2. Create a remote repository
+
+3. Connect local repo to remote repo
+
+# git checkout master
+
+# git remote add origin https://github.com/Sonal0409/myproject19Apr.git
+
+# git remote -v 
+
+Remove origin if needed
+
+# git remote rm origin
+
+
+Push data from local to remote
+
+# git push origin master
+
+username : github
+password: token
+
+================================
+
+Create a file in github on master branch and pull the file to merge in local repoisotry master branch
+
+
+Once file is created on master branch of remote repo
+
+go to local repo
+
+# git checkout master
+
+# git pull origin master
+
+pull will fecth changes and merge them with LR and WD
+
+================================
+
+
+Clone a remote repository to local machine
+
+# git clone https://github.com/Sonal0409/myproject19Apr.git
+
+
+Forking - complete
+===========================================
