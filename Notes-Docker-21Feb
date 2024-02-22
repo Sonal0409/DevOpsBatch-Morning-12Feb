@@ -1,0 +1,113 @@
+Continous Deployment with Docker
+=====================================================
+
+Install docker in AWS ec2 server
+
+# yum install docker -y
+
+Start docker service
+
+# systemctl start docker
+# systemctl status docker
+
+No need to install docker on lab server
+================================================
+Install Docker on ubuntu:
+
+sudo apt update
+
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+
+apt-cache policy docker-ce
+
+sudo apt install docker-ce -y
+
+sudo systemctl status docker
+
+
+Image Name:
+
+===============================
+
+Registryaddress/repository/Imagename:tagname
+
+docker pull tomcat:7
+
+docker pull dockerhub/library/tomcat:latest
+
+
+Pull images from DockerHub into dockerhost:
+======================================
+
+# docker pull ubuntu
+
+# docker pull ubuntu:18.04
+
+Remove an Image:
+
+# docker rmi ubuntu:18.04
+
+
+Run the image in dockerhost and launch a container
+
+========================================
+
+# docker run ubuntu
+
+Docker list all containers
+
+# docker ps -a
+
+
+
+
+Docker run command options
+===========================================
+
+Using docker command run an OS image -> launch a container--> container status should be up & running --> container should have a unique name
+=======================================
+
+Foreground Mode:(-it)
+=======================
+here : i=interactive , t=terminal
+
+Whenver we execute docker run command with foreground mode (-it):
+
+ > A container will be created
+ > Container will be up & running
+ > user will be logged on to the container (attached to the terminal of the container)
+
+# docker run -it --name cont1 ubuntu
+
+You will be on the container.
+
+Comeout of the container --> keep the container running
+
+Execute CTL pq
+
+Comeout of the container -->  the container should be exited/Stopped
+
+execute  = > exit
+
+Go back into the container OR attach to the terminal of a running container again:
+
+# docker attach containername/id
+
+Restart a exited container:
+
+# docker start containername/id
+
+
+Delete a container:
+
+ docker rm -f cont1
+
+Delete Images and stopped containers:
+
+ docker system prune --all
+
+Using docker command run an webserver image -> launch a container--> container status should be up & running
+=======================================

@@ -1,0 +1,93 @@
+Detached Mode:(-d)
+=======================
+
+Whenver we run docker command with detached mode:
+
+ > A container will be created
+ > Container will be up & running
+ > user will not be attached to the terminal of to the container
+
+# docker run --name n1 -d nginx
+
+===============================
+Attach to the terminal of the container from the host machine:
+============================
+
+# docker exec -it <containername> command
+
+# docker exec -it web /bin/bash
+
+
+
+Access app running on the Containers from browser of the machine
+
+
+Port Forwarding OR Port Mapping:
+===================================
+
+By default an application on docker container is avaibale on its exposed port.
+
+It is the users internet that cannot reach the container port
+
+For this we have do port forwarding or mapping in docker
+
+i.e. we have to map a VM free system port with container port
+
+example = 8989:80
+
+systemport:containerport
+
+> If a container is already created, we canot do port forwarding for the container
+
+> port forwarding will be applied at the docker run comamnd itself
+
+> flag for port forwarding (-p)
+
+# docker run --name web1 -d -p 8989:80 nginx
+
+
+> if you want docker to do port mapping then use flag -P
+
+# docker run --name web2 -d -P httpd
+
+
+==============================
+
+
+Demo 3:
+=====================
+
+Commit a container into an Image
+
+
+We dont use this process to deploy our application
+
+This process is used by Docker in the background when it build your Image
+
+
+
+Docker in the backgroup--> creates a temport container --> runs our given instrcutions --> then commits that conatienr into an Image
+
+When we run this Image--> we container with out instruction executed on it
+
+
+# docker commit containername imagename
+========================
+
+Demo 4: Push an Image to dockerhub, your repository
+
+
+docker push dockerhub/sonal04/imagename
+
+
+We have to change the Image Name
+
+docker tag  oldImageName repoName/newiMagename
+
+
+docker login
+
+docker tag myimage01 repo1/myimage01
+
+docker push repo1/myimage01
+
