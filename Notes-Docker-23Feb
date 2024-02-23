@@ -1,0 +1,169 @@
+
+
+Dockerfile Keywords:
+==========================
+
+
+1. FROM : 
+
+It is a mandatory keyword. Every dockerfile starts with FROM keyword
+FROM keywords defines what will your base image over which you will do your customizations
+FROM keywords defines what will the base of your containers
+
+2. LABEL : Maintainer="sonal" => author of the dockerfile
+
+3. ENV:
+keyword can be repeated multiple times
+If we have to choose some variabels to be used in dockerfile then we use keyword ENV
+these variables will be used only in dockerfile
+Syntax:
+  ENV NGINX_VERSION   1.25.4
+Use the variable syntax : $variable_name
+
+4. WORKDIR :
+Create a working directory on the container. 
+In this workDir, all the below instructions will now be executed in this working directory 
+
+5. RUN:
+
+With RUN keyword we will provide the list of Linux commands that are to be executed on the container
+Commands are generally related to install/upgrade/deletion of packages on the container
+Creation of directiores on the container
+These command would already run and completed whent he container is launched
+
+6. COPY:
+Are used to copy files from host server to the containers directory
+
+COPY  hostdirectory/filename    /containerdirectory
+COPY /target/sample.war   /usr/share/tomcat/webapps
+
+If you have .tar files, we cannot use COPY keyword
+
+
+7. ADD:
+
+Are used to copy files from host server to the containers directory
+If you have .tar files,we can copy them on containers
+
+ADD keyword will extract the files from .tar file and copy it on the container directory
+
+
+8. EXPOSE
+
+If we have to assign a port number to container, we use this keyword
+
+Example :  EXPOSE  8090 8087
+
+9. CMD
+
+We will give a command which will get executed once the container lanched. And this command continues to run
+Generally these are the final commands that run on the conatiner
+
+In case if only CMD keyword mentioned in dockerfile. Image will build
+
+From that image if we create a container, user can pass a new command to be executed once the containe is launched
+The default to be run on the container can be replced by the new command by user at runtime
+
+
+10. ENTRYPOINT
+
+We will give a command which will get executed once the container lanched. And this command continues to run
+Generally these are the final commands that run on the conatiner
+
+In case if only ENTRYPOINT keyword mentioned in dockerfile. Image will build
+
+From that image if we create a container, user can pass a new command to be executed once the container is launched
+The default command to be run on the container Willnot be replaced by the new command 
+The new command gets appeneded to the entrypoint command.
+
+====================================
+
+# comment: This is our fiest dockerfile
+
+FROM ubuntu
+LABEL maintainer="Edureka"
+ENV pkg_name1 git
+ENV pkg_name2 nginx
+RUN apt-get update
+RUN apt-get install $pkg_name1 -y
+RUN apt-get install $pkg_name2 -y
+COPY index.html /var/www/html/
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
