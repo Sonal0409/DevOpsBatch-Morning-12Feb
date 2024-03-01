@@ -1,1 +1,98 @@
 
+
+
+=======================
+Deployment:
+=======================
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+
+
+
+
+
+      
+  template:
+    metadata:
+      name: nginxpod
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+
+==========================
+
+HPA
+=======================
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          resources:
+            limits:
+              cpu: 10m
+
+===================
+HPA YAML
+
+              apiVersion: autoscaling/v1
+              kind: HorizontalPodAutoscaler
+              metadata:
+                name: nginx-hpa
+              spec:
+                scaleTargetRef:
+                  apiVersion: apps/v1
+                  kind: Deployment
+                  name: nginx
+                minReplicas: 1
+                maxReplicas: 10
+                targetCPUUtilizationPercentage: 5
+
+============
+Service for HPA scenario:
+=============
+
+
+              apiVersion: v1
+              kind: Service
+              metadata:
+                name: nginx-svc
+              spec:
+                type: ClusterIP  
+                selector:
+                  app: nginx
+                ports:
+                 - protocol: TCP
+                   port: 80
+                   targetPort: 80
+
+================
+Command to generate the load:
+
+# kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://10.8.10.18:80; done"
