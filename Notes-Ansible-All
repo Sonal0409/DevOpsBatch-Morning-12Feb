@@ -157,3 +157,134 @@ will give the uptime of hosts in webservers
 To chekc all modules in ansible
 
 # ansible-doc -l
+
+
+
+
+Playbooks:
+
+- name: Deploy war file on tomcat
+  hosts: webserver
+  become: true
+  become_user: root
+  vars_files:
+   - variables.yml
+  tasks:
+  - name: Install git on the server
+    package: name={{pkg_name1}} state=present
+  - name: Install package tomcat on server
+    package: name={{pkg_name}} state=present
+  - name: Start tomcat Server
+    service: name={{pkg_name}} state=started
+  - name: Deploy the war file on tomcat server
+    get_url:
+     url={{url}}
+     dest={{dest}}
+    notify:
+     - Restart tomcat server
+     - Print deployment message
+  handlers:
+  - name: Print deployment message
+    debug: msg="Deployment complete"
+  - name: Restart tomcat server
+    service: name={{pkg_name}} state=restarted
+
+variables.yml
+
+   pkg_name: tomcat
+   url: https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/sample.war
+   dest: /usr/share/tomcat/webapps
+
+
+==========
+- name: Build Image and docker containers
+  hosts: webserver
+  become: true
+  become_user: root
+  tasks:
+  - name: Install packages on host server
+    package: name={{item}} state=present
+    loop:
+     - git
+     - docker
+  - name: Start docker service
+    service: name=docker state=started
+  - name: clone a repo on host server
+    git:
+     repo=https://github.com/Sonal0409/AnsibleDockerdemo.git
+     dest=/tmp/myrepo
+  - name: build the dockerfile
+    command: chdir=/tmp/myrepo docker build -t myimage:ansible .
+
+====================
+
+Demo1: Jinja2 template:
+=====================
+
+mkdir mytemplatedemo
+cd mytemplatedemo
+
+vim myapp.conf.j2
+
+local_ip = {{ ansible_default_ipv4["address"] }}
+host_nodename = {{ ansible_nodename }}
+host_OS_family = {{ ansible_os_family }}
+host_domain = {{ ansible_domain }}
+
+save the file
+
+vim playbookdemo1.yml
+
+- hosts: webserver
+  become: true
+  tasks:
+  - name: install my_app configuration file from template
+    template:
+     src: myapp.conf.j2
+     dest: /etc/myapp.conf
+
+Save the file
+
+
+# ansible-playbook -i /home/ansiuser/myinventory playbookdemo1.yml
+
+Demo2 of jinja 2:
+====================
+
+
+vim index.html.j2
+
+This is jinja template
+
+The apache2 webserver is running on  {{ansible_hostname}}
+
+ Conditional statement
+
+{% for item in system_admin %}
+
+The system admin is : {{item}}
+
+{% endfor %}
+
+save the file
+
+===========================
+
+vim playbookdemo.yml
+
+- hosts: webserver
+  become: true
+  vars:
+   system_admin:
+    - admin@gmail.com
+    - sonal@gmail.com
+    - ansible@gmail.com
+  tasks:
+  - name: Install apache
+    package: name=apache2 state=present
+  - name: restart apache
+    service: name=apache2 state=started
+  - name: copy index file
+    template: src=index.html.j2 dest=/var/www/html/index.html
+
+Save the file.
