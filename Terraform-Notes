@@ -1,0 +1,273 @@
+Terraform Notes:
+=====================================================
+
+
+Demo 1: Install terraform in EC2 server:
+
+wget https://releases.hashicorp.com/terraform/1.4.6/terraform_1.4.6_linux_amd64.zip
+
+unzip terraform_1.4.6_linux_amd64.zip
+
+ mv terraform /usr/local/bin
+
+=====================================================
+
+Demo 2: Create Accesskey and secret in AWS, that terraform will use for authetication
+
+Our provider is AWS
+
+We need create an new user in AWS whose credentials will be provided to terraform -- IAM service on AWS will be used
+
+In AWS 
+
+IAM > Users > click on add user > give a username > click next > select Attach policies directly > select AdministratorAccess below >> click on next > click on create user.
+
+Now lets attach access key and secret key to the user.
+
+Click on username>> click on security credentials > Select Access keys> click on create access key
+ > sleect Command Line Interface (CLI)
+> click on I understand the above recommendation and want to proceed to create an access key. > press next > click on create access key
+
+===============================================
+
+Demo 3: Write tf code to configure to AWS provider.
+
+For this go terraform registry : https://registry.terraform.io/
+
+**
+ configure the provider with the proper credentials before you can use it.
+
+
+Introcution to provider Block
+
+provider "name" {
+
+//credenatail information
+
+}
+
+provider "aws" {
+  region     = "us-west-2"
+  access_key = 
+  secret_key = 
+}
+
+Inititae terraform to download provider plugin
+
+Execute below command.
+
+# terraform init
+
+===================================================
+
+Demo 4: Write a Resource block that will create ec2 instance on AWS
+
+provider "aws" {
+  region     = "us-west-2"
+  access_key = 
+  secret_key = "
+}
+
+resource "aws_instance" "myec2"{
+
+ami = "ami-0ac64ad8517166fb1"
+instance_type = "t2.micro"
+
+tags = {
+    Name = "terraforminstance"
+  }
+
+}
+
+=======================================
+
+Demo 5: Variable Block in terraform
+==========================================
+variable "name" {
+
+default = "value"
+
+}
+
+
+
+variable "access_key" {
+default = 
+}
+
+variable "secret_key" {
+default = 
+}
+
+varibale "ami" {
+default = "ami-0ac64ad8517166fb1"
+}
+
+variable "instance_type" {
+default = "t2.micro"
+}
+
+
+/root/.aws/credentials
+
+
+==============================================
+
+Demo 6: AWS infrastructure creation using terraform:
+
+provider "aws" {
+  region     = "us-west-2"
+  access_key = var.access_key
+  secret_key = var.secret_key
+}
+
+resource "aws_vpc" "edu-vpc" {
+  cidr_block       = "10.0.0.0/16"
+
+  tags = {
+    Name = "edureka"
+  }
+}
+
+resource "aws_subnet" "subnet-1" {
+  vpc_id     = aws_vpc.edu-vpc.id
+  cidr_block = "10.0.1.0/24"
+  map_public_ip_on_launch = true
+  depends_on = [aws_vpc.edu-vpc]
+  availability_zone = "us-west-2a"
+
+  tags = {
+    Name = "edu-subnet"
+  }
+}
+
+resource "aws_route_table" "edu-route-table" {
+  vpc_id = aws_vpc.edu-vpc.id
+
+  tags = {
+    Name = "edureka"
+  }
+}
+
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.subnet-1.id
+  route_table_id = aws_route_table.edu-route-table.id
+}
+
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.edu-vpc.id
+  depends_on = [aws_vpc.edu-vpc]
+}
+
+resource "aws_route" "edu-route" {
+  route_table_id            = aws_route_table.edu-route-table.id
+  destination_cidr_block    = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.gw.id
+ }
+
+resource "aws_security_group" "allow_web" {
+  name        = "allow_web_traffic"
+  description = "Allow web inbound traffic"
+  vpc_id      = aws_vpc.edu-vpc.id
+
+  ingress {
+    description      = "HTTPS"
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+  ingress {
+    description      = "HTTP"
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+ ingress {
+    description      = "SSH"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  tags = {
+    Name = "allow_web"
+  }
+}
+
+resource "tls_private_key" "web-key" {
+ algorithm = "RSA"
+}
+
+resource "aws_key_pair" "app-instance-key" {
+
+ key_name = "web-key"
+ public_key = tls_private_key.web-key.public_key_openssh
+}
+
+resource local_file "web-key" {
+
+ content = tls_private_key.web-key.private_key_pem
+ filename = "web-key.pem"
+}
+
+resource "aws_instance" "myec2"{
+
+ami = "ami-0ac64ad8517166fb1"
+instance_type = "t2.micro"
+
+tags = {
+    Name = "terraforminstance"
+  }
+subnet_id = aws_subnet.subnet-1.id
+key_name = "web-key"
+security_groups = [aws_security_group.allow_web.id]
+
+provisioner "remote-exec" {
+
+connection {
+ type = "ssh"
+ user = "ec2-user"
+ private_key = tls_private_key.web-key.private_key_pem
+ host = aws_instance.myec2.public_ip
+}
+
+inline = [
+
+"sudo yum install httpd -y",
+"sudo systemctl start httpd",
+"sudo systemctl enable httpd"
+]
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
